@@ -8,9 +8,7 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-compress');
   grunt.loadNpmTasks('grunt-contrib-connect');
   grunt.loadNpmTasks('grunt-contrib-copy');
-  grunt.loadNpmTasks('grunt-contrib-jade');
   grunt.loadNpmTasks('grunt-contrib-jshint');
-  grunt.loadNpmTasks('grunt-contrib-stylus');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-open');
@@ -70,15 +68,15 @@ module.exports = function (grunt) {
       },
       js: {
         files: '<%= project.dest %>/**/*.js',
-        tasks: ['jade']
+        tasks: []
       },
-      jade: {
-        files: 'src/templates/*.jade',
-        tasks: ['jade']
+      html: {
+        files: 'src/html/**/*',
+        tasks: ['copy:html']
       },
-      stylus: {
-        files: 'src/style/*.styl',
-        tasks: ['stylus']
+      css: {
+        files: 'src/style/**/*',
+        tasks: ['copy:css']
       },
       images: {
         files: 'src/images/**/*',
@@ -122,29 +120,6 @@ module.exports = function (grunt) {
       }
     },
 
-    jade: {
-      compile: {
-        options: {
-          data: {
-            properties: properties,
-            productionBuild: productionBuild
-          }
-        },
-        files: {
-          'build/index.html': ['src/templates/index.jade']
-        }
-      }
-    },
-
-    stylus: {
-      compile: {
-        files: { 'build/style/index.css': ['src/style/index.styl'] },
-          options: {
-            sourcemaps: !productionBuild
-        }
-      }
-    },
-
     clean: ['./build/'],
 
     pngmin: {
@@ -157,6 +132,12 @@ module.exports = function (grunt) {
       },
 
     copy: {
+      html: {
+        files: [ { expand: true, cwd: 'src/html/', src: ['**'], dest: 'build/' } ]
+      },
+      css: {
+        files: [ { expand: true, cwd: 'src/style/', src: ['**'], dest: 'build/style/' } ]
+      },
       images: {
         files: [ { expand: true, cwd: 'src/images/', src: ['**'], dest: 'build/images/' } ]
       },
@@ -208,8 +189,8 @@ module.exports = function (grunt) {
   grunt.registerTask('default', [
     'clean',
     'browserify',
-    'jade',
-    'stylus',
+    'copy:html',
+    'copy:css',
     'copy:images',
     'copy:audio',
     'copy:phaserArcade',
@@ -223,9 +204,9 @@ module.exports = function (grunt) {
     */
     'clean',
     'browserify',
-    'jade',
-    'stylus',
     'uglify',
+    'copy:html',
+    'copy:css',
     'copy:images',
     'copy:audio',
     'copy:phaserArcadeMin',
