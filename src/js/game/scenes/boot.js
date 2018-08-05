@@ -1,38 +1,50 @@
 var Stats = require('../../lib/stats.min');
 var properties = require('../properties');
-var boot = {};
 
-boot.create = function () {
+export default class boot extends Phaser.Scene {
 
-  if (properties.showStats) {
-    console.log('this', this);
-    addStats(this.game);
+  constructor(){
+    console.log('boot constructed');
+    super({key: 'boot'});
   }
 
-  this.game.sound.mute = properties.mute;
+  create() {
+    console.log('Create called on boot');
+    // Commented out Stats until we find a loop outside of the scenes
+    // if (properties.showStats) {
+    //   this.states = addStats();
+    // }
 
-  this.game.scene.start('preloader');
-};
+    // this.game.sound.mute = properties.mute;
 
-function addStats(game) {
-  console.log('gamge', game);
-  var stats = new Stats();
-
-  stats.setMode(0);
-
-  stats.domElement.style.position = 'absolute';
-  stats.domElement.style.right = '0px';
-  stats.domElement.style.top = '0px';
-
-  document.body.appendChild(stats.domElement);
-
-  // Monkey patch Phaser's update in order to correctly monitor FPS.
-  var oldUpdate = game.update;
-  game.update = function() {
-    stats.begin();
-    oldUpdate.apply(game, arguments);
-    stats.end();
+    this.scene.start('preloader');
   };
-}
 
-module.exports = boot;
+  update() {
+    this.stats.begin();
+    // Tick
+    this.stats.end();
+  }
+
+  addStats() {
+    let stats = new Stats(); 
+
+    stats.setMode(0);
+
+    stats.domElement.style.position = 'absolute';
+    stats.domElement.style.right = '0px';
+    stats.domElement.style.top = '0px';
+
+    document.body.appendChild(stats.domElement);
+
+    return stats;
+
+    // Monkey patch Phaser's update in order to correctly monitor FPS.
+    // var oldUpdate = game.update;
+    // game.update = function() {
+    //   stats.begin();
+    //   oldUpdate.apply(game, arguments);
+    //   stats.end();
+    // };
+  }
+}

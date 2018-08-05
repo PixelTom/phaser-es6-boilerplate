@@ -1,11 +1,15 @@
-var preloader = {};
+export default class preloader extends Phaser.Scene{
 
-preloader.preload = function () {
-  this.game.load.image('logo', 'images/phaser.png');
-};
+  constructor(){
+    super({key: 'preloader'});
+  }
 
-preloader.create = function () {
-  this.game.scene.start('game');
-};
+  preload(){
+    this.load.image('logo', 'images/phaser.png');
+  }
 
-module.exports = preloader;
+  create(){
+    this.scene.start('game');
+  }
+
+}
