@@ -5,16 +5,17 @@ var boot = {};
 boot.create = function () {
 
   if (properties.showStats) {
+    console.log('this', this);
     addStats(this.game);
   }
 
   this.game.sound.mute = properties.mute;
 
-  this.game.state.start('preloader');
+  this.game.scene.start('preloader');
 };
 
 function addStats(game) {
-
+  console.log('gamge', game);
   var stats = new Stats();
 
   stats.setMode(0);

@@ -5,7 +5,7 @@ preloader.preload = function () {
 };
 
 preloader.create = function () {
-  this.game.state.start('game');
+  this.game.scene.start('game');
 };
 
 module.exports = preloader;
