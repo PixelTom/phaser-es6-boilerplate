@@ -10,6 +10,7 @@ boot.create = function () {
   }
 
   if (properties.autoScale) {
+    this.game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
     AutoScale();
   }
 
